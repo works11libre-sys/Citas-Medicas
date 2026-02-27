@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>MediCenter Pro | Gestión de Citas Premium</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Bungee&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -27,7 +27,7 @@
         /* --- NAVIGATION --- */
         .nav-container {
             position: fixed; top: 0; width: 100%; background: var(--white);
-            padding: 10px 5%; display: flex; justify-content: space-between;
+            padding: 10px 15px; display: flex; justify-content: space-between;
             align-items: center; z-index: 1000; box-shadow: var(--shadow);
         }
         .logo { font-family: 'Bungee'; color: var(--medical-blue); font-size: 1rem; flex-shrink: 0; }
@@ -36,7 +36,7 @@
         .emergency-pill { 
             background: var(--emergency-red); color: white; padding: 6px 12px; 
             border-radius: 50px; font-weight: bold; font-size: 0.7rem; text-decoration: none;
-            animation: pulse 2s infinite; text-align: center;
+            animation: pulse 2s infinite; white-space: nowrap;
         }
 
         @keyframes pulse {
@@ -47,31 +47,29 @@
 
         /* --- HERO --- */
         .hero {
-            height: 50vh; background: linear-gradient(135deg, var(--light-blue) 0%, #FFFFFF 100%);
+            height: auto; min-height: 40vh; background: linear-gradient(135deg, var(--light-blue) 0%, #FFFFFF 100%);
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            text-align: center; padding: 20px; margin-top: 50px;
+            text-align: center; padding: 100px 20px 60px;
         }
-        .hero h1 { font-size: clamp(1.8rem, 8vw, 3.5rem); color: var(--medical-blue); font-weight: 800; margin-bottom: 10px; line-height: 1.1; }
-        .hero p { font-size: 0.9rem; max-width: 80%; }
+        .hero h1 { font-size: clamp(2rem, 10vw, 3.5rem); color: var(--medical-blue); font-weight: 800; line-height: 1.1; margin-bottom: 15px; }
+        .hero p { font-size: 1rem; max-width: 300px; color: #64748B; }
 
         /* --- SPECIALTIES GRID --- */
         .grid-container {
-            display: grid; 
-            grid-template-columns: repeat(2, 1fr); /* Forzamos 2 columnas en móvil */
-            gap: 12px; padding: 20px 4%; max-width: 1300px; margin: -60px auto 0;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 15px; padding: 20px; max-width: 1300px; margin: -40px auto 0;
         }
         .spec-card {
-            background: var(--white); border-radius: 18px; overflow: hidden;
+            background: var(--white); border-radius: 20px; overflow: hidden;
             box-shadow: var(--shadow); transition: 0.3s;
             cursor: pointer; position: relative; border: 1px solid rgba(0,0,0,0.05);
-            display: flex; flex-direction: column;
         }
-        .doc-img { width: 100%; height: 120px; object-fit: cover; background: #E2E8F0; }
-        .spec-info { padding: 12px; text-align: center; flex-grow: 1; }
-        .spec-info i { font-size: 1.2rem; color: var(--medical-blue); margin-bottom: 5px; }
-        .spec-info h3 { font-size: 0.85rem; margin-bottom: 4px; }
-        .spec-info p { font-size: 0.7rem; color: #64748B; margin-bottom: 8px; }
-        .price-badge { background: var(--light-blue); color: var(--medical-blue); padding: 4px 8px; border-radius: 8px; font-weight: bold; font-size: 0.7rem; }
+        .doc-img { width: 100%; height: 140px; object-fit: cover; background: #E2E8F0; }
+        .spec-info { padding: 15px; text-align: center; }
+        .spec-info i { font-size: 1.2rem; color: var(--medical-blue); margin-bottom: 8px; }
+        .spec-info h3 { font-size: 0.95rem; margin-bottom: 5px; }
+        .spec-info p { font-size: 0.8rem; color: #64748B; margin-bottom: 10px; }
+        .price-badge { background: var(--light-blue); color: var(--medical-blue); padding: 4px 10px; border-radius: 8px; font-weight: bold; font-size: 0.75rem; }
 
         /* --- MODAL --- */
         .modal {
@@ -79,59 +77,50 @@
             backdrop-filter: blur(5px); z-index: 3000; align-items: center; justify-content: center; padding: 20px;
         }
         .modal-content {
-            background: white; padding: 30px; border-radius: 25px; max-width: 450px; width: 100%;
+            background: white; padding: 30px; border-radius: 25px; max-width: 90%; width: 100%;
             position: relative; animation: zoomIn 0.3s;
         }
         .close-modal { position: absolute; top: 15px; right: 15px; font-size: 1.5rem; cursor: pointer; color: #94A3B8; }
 
         /* --- BOOKING & CALENDAR SECTION --- */
         .main-booking-area { 
-            display: grid; grid-template-columns: 1fr; gap: 25px; 
-            padding: 40px 5%; max-width: 1300px; margin: 0 auto; 
+            display: flex; flex-direction: column; gap: 25px; 
+            padding: 40px 20px; max-width: 1300px; margin: 0 auto; 
         }
-        .booking-form-card { background: white; padding: 25px; border-radius: 24px; box-shadow: var(--shadow); }
-        .booking-form-card h2 { font-size: 1.3rem; margin-bottom: 20px; }
+        .booking-form-card { background: white; padding: 25px; border-radius: 25px; box-shadow: var(--shadow); border: 2px solid transparent; }
+        .booking-form-card.home-active { border-color: var(--home-gold); }
         
         .staff-calendar-box { 
-            background: #1A202C; color: white; padding: 25px; border-radius: 24px; 
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            background: #1A202C; color: white; padding: 25px; border-radius: 25px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2); order: 2;
         }
         .calendar-header { border-bottom: 1px solid #2D3748; padding-bottom: 10px; margin-bottom: 15px; font-family: 'Bungee'; color: var(--accent-blue); font-size: 0.9rem; }
         .appointment-slot { 
-            background: #2D3748; padding: 12px; border-radius: 12px; margin-bottom: 8px; 
-            border-left: 4px solid var(--accent-blue); font-size: 0.8rem;
+            background: #2D3748; padding: 12px; border-radius: 12px; margin-bottom: 10px; 
+            border-left: 4px solid var(--accent-blue); font-size: 0.85rem;
         }
 
         .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 6px; font-weight: 700; color: var(--medical-blue); font-size: 0.75rem; text-transform: uppercase; }
+        label { display: block; margin-bottom: 6px; font-weight: 700; color: var(--medical-blue); font-size: 0.75rem; }
         input, select, textarea { width: 100%; padding: 12px; border-radius: 10px; border: 2px solid #E2E8F0; font-size: 0.95rem; }
 
         .btn-submit {
-            width: 100%; background: var(--medical-blue); color: white; padding: 16px;
-            border-radius: 10px; border: none; font-size: 1rem; font-weight: bold;
+            width: 100%; background: var(--medical-blue); color: white; padding: 18px;
+            border-radius: 12px; border: none; font-size: 1rem; font-weight: bold;
             cursor: pointer; transition: 0.3s; margin-top: 10px;
         }
 
-        /* --- HOME SERVICE SPECIFIC --- */
-        #homeServiceFields { display: none; background: #FFFDF5; padding: 15px; border-radius: 15px; border: 1px dashed var(--home-gold); margin-bottom: 15px; }
-
         /* --- INFO SECTIONS --- */
-        .info-grid { display: grid; grid-template-columns: 1fr; gap: 30px; padding: 40px 5%; max-width: 1300px; margin: 0 auto; }
-        .faq-card { background: white; padding: 20px; border-radius: 15px; margin-bottom: 10px; border: 1px solid #EDF2F7; }
-        .location-map { background: #E2E8F0; border-radius: 24px; height: 250px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 20px; }
+        .info-grid { display: flex; flex-direction: column; gap: 30px; padding: 40px 20px; }
+        .faq-card { background: white; padding: 20px; border-radius: 15px; border: 1px solid #EDF2F7; }
+        .location-map { background: #E2E8F0; border-radius: 25px; height: 250px; display: flex; align-items: center; justify-content: center; padding: 20px; }
 
-        /* --- MEDIA QUERIES PARA DESKTOP --- */
-        @media (min-width: 768px) {
-            .grid-container { grid-template-columns: repeat(4, 1fr); margin-top: -100px; gap: 25px; }
-            .doc-img { height: 200px; }
-            .spec-info h3 { font-size: 1.1rem; }
-            .spec-info p { font-size: 0.9rem; }
-            .main-booking-area { grid-template-columns: 1.2fr 0.8fr; gap: 40px; padding: 60px 5%; }
-            .info-grid { grid-template-columns: 1fr 1fr; }
-            .location-map { height: 400px; }
-            .logo { font-size: 1.3rem; }
-            .phone-link { font-size: 0.9rem; }
-            .emergency-pill { font-size: 0.8rem; padding: 8px 18px; }
+        @media (min-width: 969px) {
+            .main-booking-area { display: grid; grid-template-columns: 1.2fr 0.8fr; }
+            .info-grid { display: grid; grid-template-columns: 1fr 1fr; }
+            .hero { height: 60vh; padding: 60px; }
+            .grid-container { grid-template-columns: repeat(4, 1fr); margin-top: -100px; }
+            .staff-calendar-box { order: unset; }
         }
     </style>
 </head>
@@ -140,9 +129,9 @@
     <div class="modal" id="infoModal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal()">&times;</span>
-            <h2 id="modalTitle" style="color: var(--medical-blue); margin-bottom: 15px; font-size: 1.4rem;"></h2>
-            <p id="modalBody" style="line-height: 1.6; color: #4A5568; margin-bottom: 20px; font-size: 0.9rem;"></p>
-            <div style="background: var(--light-blue); padding: 15px; border-radius: 15px; font-size: 0.8rem;">
+            <h2 id="modalTitle" style="color: var(--medical-blue); margin-bottom: 15px; font-size: 1.2rem;"></h2>
+            <p id="modalBody" style="line-height: 1.5; color: #4A5568; margin-bottom: 20px; font-size: 0.9rem;"></p>
+            <div style="background: var(--light-blue); padding: 12px; border-radius: 12px; font-size: 0.8rem;">
                 <p><strong><i class="fa-solid fa-clock"></i> Nota:</strong> Solo se atiende con cita previa confirmada.</p>
             </div>
         </div>
@@ -151,14 +140,14 @@
     <nav class="nav-container">
         <div class="logo"><i class="fa-solid fa-house-medical"></i> MEDICENTER</div>
         <div class="nav-right">
-            <a href="tel:+525512345678" class="phone-link"><i class="fa-solid fa-phone"></i> (55) 1234-5678</a>
-            <a href="#booking" class="emergency-pill">URGENCIAS</a>
+            <a href="tel:+525512345678" class="phone-link"><i class="fa-solid fa-phone"></i> LLAMAR</a>
+            <a href="#booking" class="emergency-pill">URGENCIAS 24/7</a>
         </div>
     </nav>
 
     <header class="hero">
         <h1 class="animate__animated animate__fadeInDown">Excelencia Médica.</h1>
-        <p class="animate__animated animate__fadeInUp">Sincronización directa con especialistas.</p>
+        <p class="animate__animated animate__fadeInUp">Gestión directa con especialistas de confianza.</p>
     </header>
 
     <section class="grid-container">
@@ -166,8 +155,7 @@
             <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=500&q=80" class="doc-img" alt="Dr. Méndez">
             <div class="spec-info">
                 <i class="fa-solid fa-stethoscope"></i>
-                <h3>General</h3>
-                <p>Dr. Méndez</p>
+                <h3>Gral.</h3>
                 <span class="price-badge">$40.00</span>
             </div>
         </div>
@@ -175,8 +163,7 @@
             <img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&w=500&q=80" class="doc-img" alt="Dra. Ruiz">
             <div class="spec-info">
                 <i class="fa-solid fa-venus"></i>
-                <h3>Gineco</h3>
-                <p>Dra. Ruiz</p>
+                <h3>Ginecología</h3>
                 <span class="price-badge">$75.00</span>
             </div>
         </div>
@@ -185,7 +172,6 @@
             <div class="spec-info">
                 <i class="fa-solid fa-baby"></i>
                 <h3>Pediatría</h3>
-                <p>Dr. Cano</p>
                 <span class="price-badge">$60.00</span>
             </div>
         </div>
@@ -193,8 +179,7 @@
             <img src="https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&w=500&q=80" class="doc-img" alt="Dr. Paz">
             <div class="spec-info">
                 <i class="fa-solid fa-wind"></i>
-                <h3>Alergia</h3>
-                <p>Dr. Paz</p>
+                <h3>Alergias</h3>
                 <span class="price-badge">$90.00</span>
             </div>
         </div>
@@ -202,99 +187,99 @@
 
     <section class="main-booking-area" id="booking">
         <div class="booking-form-card" id="formCard">
-            <h2><i class="fa-solid fa-calendar-plus"></i> Agendar Cita</h2>
+            <h2 style="margin-bottom: 25px; font-size: 1.2rem;"><i class="fa-solid fa-calendar-plus"></i> Agendar Cita</h2>
             <form id="mainForm">
                 <div class="form-group">
-                    <label>Paciente</label>
+                    <label>NOMBRE DEL PACIENTE</label>
                     <input type="text" id="patientName" placeholder="Nombre completo" required>
                 </div>
                 <div class="form-group">
-                    <label>Tipo de Consulta</label>
+                    <label>TIPO DE CONSULTA</label>
                     <select id="typeSelect" onchange="toggleHomeService()" required>
                         <option value="clinica">🏥 En Clínica</option>
-                        <option value="domicilio">🏠 A Domicilio (+$50)</option>
+                        <option value="domicilio">🏠 A Domicilio (+$50.00)</option>
                     </select>
                 </div>
                 
-                <div id="homeServiceFields">
+                <div id="homeServiceFields" style="display: none; background: #FFFDF5; padding: 15px; border-radius: 12px; border: 1px dashed var(--home-gold); margin-bottom: 15px;">
                     <div class="form-group">
-                        <label><i class="fa-solid fa-map-location-dot"></i> Dirección</label>
-                        <textarea id="homeAddress" rows="2" placeholder="Calle y referencias..."></textarea>
+                        <label>DIRECCIÓN</label>
+                        <textarea id="homeAddress" rows="2" placeholder="Calle y número..."></textarea>
                     </div>
                     <div class="form-group">
-                        <label><i class="fa-solid fa-mobile-screen"></i> WhatsApp</label>
-                        <input type="tel" id="patientPhone" placeholder="Tu número">
+                        <label>WHATSAPP</label>
+                        <input type="tel" id="patientPhone" placeholder="Tu número móvil">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label>Especialidad</label>
+                    <label>ESPECIALIDAD</label>
                     <select id="serviceSelect" onchange="updateDoctorsList()" required>
                         <option value="">Seleccione...</option>
-                        <option value="General" data-price="40">General ($40)</option>
+                        <option value="General" data-price="40">Consulta General ($40)</option>
                         <option value="Ginecología" data-price="75">Ginecología ($75)</option>
                         <option value="Pediatría" data-price="60">Pediatría ($60)</option>
                         <option value="Alergología" data-price="90">Alergología ($90)</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Médico</label>
+                    <label>MÉDICO ASIGNADO</label>
                     <select id="doctorSelect" required></select>
                 </div>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
                     <div class="form-group">
-                        <label>Fecha</label>
+                        <label>FECHA</label>
                         <input type="date" id="appDate" required onchange="validateSlots()">
                     </div>
                     <div class="form-group">
-                        <label>Hora</label>
+                        <label>HORA</label>
                         <select id="appTime" required>
                             <option value="09:00">09:00 AM</option>
                             <option value="10:00">10:00 AM</option>
-                            <option value="11:00" id="slot-11" disabled>11:00 AM (Ocupado)</option>
+                            <option value="11:00" id="slot-11" disabled>11:00 AM (X)</option>
                             <option value="12:00">12:00 PM</option>
-                            <option value="16:00" id="slot-16" disabled>04:00 PM (Ocupado)</option>
+                            <option value="16:00" id="slot-16" disabled>04:00 PM (X)</option>
                             <option value="17:00">05:00 PM</option>
                         </select>
                     </div>
                 </div>
-                <button type="submit" class="btn-submit">CONFIRMAR RESERVA</button>
+                <button type="submit" class="btn-submit">CONFIRMAR POR WHATSAPP</button>
             </form>
         </div>
 
         <div class="staff-calendar-box">
             <div class="calendar-header">
-                <i class="fa-solid fa-clipboard-list"></i> AGENDA ACTUAL
+                <i class="fa-solid fa-clipboard-list"></i> AGENDA RECIENTE
             </div>
-            <p style="font-size: 0.7rem; color: #94A3B8; margin-bottom: 15px;">
+            <p style="font-size: 0.65rem; color: #94A3B8; margin-bottom: 15px;">
                 Admin: <strong>angelyef49@gmail.com</strong>
             </p>
             <div id="calendarDisplay">
                 <div class="appointment-slot"><strong>08:00 AM</strong> - Bloqueo Administrativo</div>
-                <div class="appointment-slot"><strong>11:00 AM</strong> - RESERVADO: Cirugía</div>
-                <div class="appointment-slot"><strong>16:00 PM</strong> - RESERVADO: Externa</div>
+                <div class="appointment-slot"><strong>11:00 AM</strong> - RESERVADO</div>
+                <div class="appointment-slot"><strong>16:00 PM</strong> - RESERVADO</div>
             </div>
         </div>
     </section>
 
     <section class="info-grid">
         <div>
-            <h3 style="margin-bottom: 15px; color: var(--medical-blue);">Preguntas Frecuentes</h3>
+            <h3 style="margin-bottom: 15px; color: var(--medical-blue); font-size: 1.1rem;">Dudas Frecuentes</h3>
             <div class="faq-card">
-                <strong style="font-size: 0.9rem;">¿Costo a domicilio?</strong>
-                <p style="font-size: 0.8rem; color: #64748B; margin-top: 5px;">+$50.00 sobre el precio base de la especialidad.</p>
+                <strong>¿Atienden sin cita?</strong>
+                <p style="font-size: 0.85rem; color: #64748B; margin-top: 5px;">No, trabajamos solo bajo agenda previa para asegurar calidad.</p>
             </div>
-            <div class="faq-card">
-                <strong style="font-size: 0.9rem;">¿Cómo cancelo?</strong>
-                <p style="font-size: 0.8rem; color: #64748B; margin-top: 5px;">Llamar con 4 horas de anticipación.</p>
+            <div class="faq-card" style="margin-top:10px;">
+                <strong>¿Cómo pago?</strong>
+                <p style="font-size: 0.85rem; color: #64748B; margin-top: 5px;">Efectivo, Tarjeta o Transferencia en consultorio.</p>
             </div>
         </div>
         <div>
-            <h3 style="margin-bottom: 15px; color: var(--medical-blue);">Ubicación</h3>
+            <h3 style="margin-bottom: 15px; color: var(--medical-blue); font-size: 1.1rem;">Ubicación</h3>
             <div class="location-map">
-                <div>
-                    <i class="fa-solid fa-location-dot" style="font-size: 2rem; color: var(--medical-blue); margin-bottom: 10px;"></i>
-                    <p style="font-weight: 800; font-size: 0.9rem;">Torre Médica Premium, Piso 4</p>
+                <div style="text-align: center;">
+                    <i class="fa-solid fa-location-dot" style="font-size: 2rem; color: var(--medical-blue);"></i>
+                    <p style="font-weight: 800; margin-top: 10px; font-size: 0.9rem;">Torre Médica Premium, Piso 4</p>
                     <p style="font-size: 0.8rem;">Av. Principal #1024, CDMX</p>
                 </div>
             </div>
@@ -302,22 +287,31 @@
     </section>
 
     <footer style="text-align: center; padding: 30px; color: #94A3B8; font-size: 0.7rem;">
-        <p>© 2026 MediCenter Pro.</p>
+        <p>© 2026 MediCenter Pro. <br>Admin: angelyef49@gmail.com</p>
     </footer>
 
     <script>
         const specDetails = {
-            "General": "Abarca diagnósticos preventivos, manejo de enfermedades comunes y certificados médicos.",
-            "Ginecología": "Salud reproductiva femenina, control prenatal y ultrasonidos de alta resolución.",
-            "Pediatría": "Atención especializada para neonatos y niños, control de crecimiento y vacunas.",
-            "Alergología": "Detección y tratamiento de alergias estacionales, alimentarias y asma."
+            "General": "Diagnósticos preventivos, manejo de enfermedades comunes y certificados médicos.",
+            "Ginecología": "Salud reproductiva femenina, control prenatal y prevención oncológica.",
+            "Pediatría": "Atención para niños, control de crecimiento y vacunación.",
+            "Alergología": "Tratamiento de alergias y asma mediante pruebas avanzadas."
         };
 
         const doctorsDB = {
-            "General": [{ name: "Dr. Méndez", phone: "525511112222" }, { name: "Dra. Salas", phone: "525533334444" }],
-            "Ginecología": [{ name: "Dra. Fernanda Ruiz", phone: "525555556666" }],
-            "Pediatría": [{ name: "Dr. Roberto Cano", phone: "525577778888" }],
-            "Alergología": [{ name: "Dr. Samuel Paz", phone: "525599990000" }]
+            "General": [
+                { name: "Dr. Méndez", phone: "525511112222" },
+                { name: "Dra. Salas", phone: "525533334444" }
+            ],
+            "Ginecología": [
+                { name: "Dra. Fernanda Ruiz", phone: "525555556666" }
+            ],
+            "Pediatría": [
+                { name: "Dr. Roberto Cano", phone: "525577778888" }
+            ],
+            "Alergología": [
+                { name: "Dr. Samuel Paz", phone: "525599990000" }
+            ]
         };
 
         function openSpec(name) {
@@ -326,17 +320,22 @@
             document.getElementById('infoModal').style.display = 'flex';
         }
 
-        function closeModal() { document.getElementById('infoModal').style.display = 'none'; }
+        function closeModal() {
+            document.getElementById('infoModal').style.display = 'none';
+        }
 
         function toggleHomeService() {
             const type = document.getElementById('typeSelect').value;
             const fields = document.getElementById('homeServiceFields');
+            const card = document.getElementById('formCard');
             if(type === 'domicilio') {
                 fields.style.display = 'block';
+                card.classList.add('home-active');
                 document.getElementById('homeAddress').required = true;
                 document.getElementById('patientPhone').required = true;
             } else {
                 fields.style.display = 'none';
+                card.classList.remove('home-active');
                 document.getElementById('homeAddress').required = false;
                 document.getElementById('patientPhone').required = false;
             }
@@ -379,6 +378,7 @@
             const time = document.getElementById('appTime').value;
             const date = document.getElementById('appDate').value;
             const type = document.getElementById('typeSelect').value;
+            
             const docSelect = document.getElementById('doctorSelect');
             const selectedDocName = docSelect.value;
             const selectedDocPhone = docSelect.selectedOptions[0].dataset.phone;
@@ -394,14 +394,25 @@
             calendar.prepend(newSlot);
 
             let message = `📌 *NUEVA CITA REGISTRADA*\n\n`;
-            message += `👤 *Paciente:* ${name}\n🏥 *Servicio:* ${service}\n👨‍⚕️ *Doctor:* ${selectedDocName}\n📅 *Fecha:* ${date}\n⏰ *Hora:* ${time}\n💵 *Total:* $${basePrice}.00\n`;
+            message += `👤 *Paciente:* ${name}\n`;
+            message += `🏥 *Servicio:* ${service}\n`;
+            message += `👨‍⚕️ *Doctor:* ${selectedDocName}\n`;
+            message += `📅 *Fecha:* ${date}\n`;
+            message += `⏰ *Hora:* ${time}\n`;
+            message += `💵 *Total:* $${basePrice}.00\n`;
             
             if(type === 'domicilio') {
-                message += `🏠 *MODALIDAD:* DOMICILIO\n📍 *Dirección:* ${document.getElementById('homeAddress').value}\n📞 *Tel:* ${document.getElementById('patientPhone').value}`;
+                const address = document.getElementById('homeAddress').value;
+                const phone = document.getElementById('patientPhone').value;
+                message += `🏠 *MODALIDAD:* DOMICILIO\n`;
+                message += `📍 *Dirección:* ${address}\n`;
+                message += `📞 *Tel:* ${phone}`;
             }
 
-            alert(`✅ REGISTRADO\nNotificando al ${selectedDocName}`);
-            window.open(`https://wa.me/${selectedDocPhone}?text=${encodeURIComponent(message)}`, '_blank');
+            alert(`✅ REGISTRO EXITOSO\n\nEnviando datos al ${selectedDocName}.`);
+            const waUrl = `https://wa.me/${selectedDocPhone}?text=${encodeURIComponent(message)}`;
+            window.open(waUrl, '_blank');
+
             this.reset();
             toggleHomeService();
         };
