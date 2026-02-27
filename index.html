@@ -17,7 +17,7 @@
             --text-dark: #1A202C;
             --white: #FFFFFF;
             --glass: rgba(255, 255, 255, 0.9);
-            --shadow: 0 10px 30px rgba(0, 82, 204, 0.1);
+            --shadow: 0 20px 40px rgba(0, 82, 204, 0.15);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
@@ -30,11 +30,10 @@
             align-items: center; z-index: 1000; box-shadow: var(--shadow);
         }
         .logo { font-family: 'Bungee'; color: var(--medical-blue); font-size: 1.2rem; }
-        .nav-links { display: flex; align-items: center; gap: 20px; }
-        .phone-btn { color: var(--medical-blue); text-decoration: none; font-weight: 800; border: 2px solid var(--medical-blue); padding: 8px 15px; border-radius: 10px; transition: 0.3s; }
-        .phone-btn:hover { background: var(--medical-blue); color: white; }
+        .nav-right { display: flex; align-items: center; gap: 20px; }
+        .phone-link { color: var(--medical-blue); font-weight: 800; text-decoration: none; font-size: 0.9rem; border-right: 2px solid #EEE; padding-right: 20px; }
         .emergency-pill { 
-            background: var(--emergency-red); color: white; padding: 10px 20px; 
+            background: var(--emergency-red); color: white; padding: 8px 18px; 
             border-radius: 50px; font-weight: bold; font-size: 0.8rem; text-decoration: none;
             animation: pulse 2s infinite;
         }
@@ -52,279 +51,303 @@
             text-align: center; padding: 20px; margin-top: 60px;
         }
         .hero h1 { font-size: clamp(2.5rem, 8vw, 4rem); color: var(--medical-blue); font-weight: 800; margin-bottom: 20px; }
-        .hero p { max-width: 600px; color: #64748B; font-size: 1.1rem; }
-        .tag { background: var(--medical-blue); color: white; padding: 5px 15px; border-radius: 5px; font-size: 0.8rem; margin-bottom: 15px; font-weight: 600; }
 
-        /* --- MODAL INFO --- */
-        .modal-overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: none;
-            justify-content: center; align-items: center; z-index: 3000; padding: 20px;
+        /* --- SPECIALTIES GRID --- */
+        .grid-container {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px; padding: 50px 5%; max-width: 1300px; margin: -100px auto 0;
         }
-        .modal-card {
-            background: white; padding: 40px; border-radius: 20px; max-width: 500px; width: 100%;
-            position: relative; animation: animate__fadeInUp 0.3s;
+        .spec-card {
+            background: var(--white); border-radius: 24px; overflow: hidden;
+            box-shadow: var(--shadow); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer; position: relative; border: 1px solid rgba(0,0,0,0.05);
         }
-        .close-modal { position: absolute; top: 20px; right: 20px; cursor: pointer; font-size: 1.5rem; color: #94A3B8; }
+        .spec-card:hover { transform: translateY(-15px); border-color: var(--medical-blue); }
+        .doc-img { width: 100%; height: 200px; object-fit: cover; background: #E2E8F0; }
+        .spec-info { padding: 20px; text-align: center; }
+        .spec-info i { font-size: 1.5rem; color: var(--medical-blue); margin-bottom: 10px; }
+        .price-badge { background: var(--light-blue); color: var(--medical-blue); padding: 5px 12px; border-radius: 10px; font-weight: bold; font-size: 0.8rem; }
 
-        /* --- BOOKING SECTION & CALENDAR --- */
-        .main-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 30px; padding: 50px 5%; max-width: 1300px; margin: 0 auto; }
+        /* --- MODAL --- */
+        .modal {
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px); z-index: 3000; align-items: center; justify-content: center; padding: 20px;
+        }
+        .modal-content {
+            background: white; padding: 40px; border-radius: 30px; max-width: 500px; width: 100%;
+            position: relative; animation: zoomIn 0.3s;
+        }
+        .close-modal { position: absolute; top: 20px; right: 20px; font-size: 1.5rem; cursor: pointer; color: #94A3B8; }
+
+        /* --- BOOKING & CALENDAR SECTION --- */
+        .main-booking-area { 
+            display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 40px; 
+            padding: 80px 5%; max-width: 1300px; margin: 0 auto; 
+        }
+        .booking-form-card { background: white; padding: 40px; border-radius: 30px; box-shadow: var(--shadow); }
         
-        .booking-card { background: var(--white); padding: 40px; border-radius: 20px; box-shadow: var(--shadow); }
-        
-        /* Estilo para el Calendario de Staff */
-        .staff-calendar { background: #1A202C; color: white; padding: 30px; border-radius: 20px; box-shadow: var(--shadow); height: fit-content; }
-        .calendar-title { color: var(--accent-blue); font-family: 'Bungee'; font-size: 1rem; margin-bottom: 20px; border-bottom: 1px solid #2D3748; padding-bottom: 10px; }
-        .appointment-item { 
-            background: #2D3748; padding: 12px; border-radius: 10px; margin-bottom: 10px; 
-            border-left: 4px solid var(--accent-blue); font-size: 0.85rem; animation: fadeInRight 0.5s;
+        .staff-calendar-box { 
+            background: #1A202C; color: white; padding: 30px; border-radius: 30px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2); height: fit-content;
+        }
+        .calendar-header { border-bottom: 1px solid #2D3748; padding-bottom: 15px; margin-bottom: 20px; font-family: 'Bungee'; color: var(--accent-blue); }
+        .appointment-slot { 
+            background: #2D3748; padding: 15px; border-radius: 15px; margin-bottom: 10px; 
+            border-left: 4px solid var(--accent-blue); animation: slideInRight 0.5s;
         }
 
         .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--medical-blue); font-size: 0.9rem; }
-        input, select { width: 100%; padding: 15px; border-radius: 12px; border: 2px solid #E2E8F0; font-size: 1rem; }
-        input:focus, select:focus { border-color: var(--medical-blue); outline: none; background: #F0F7FF; }
+        label { display: block; margin-bottom: 8px; font-weight: 700; color: var(--medical-blue); font-size: 0.85rem; }
+        input, select { width: 100%; padding: 15px; border-radius: 12px; border: 2px solid #E2E8F0; font-size: 1rem; transition: 0.3s; }
+        input:focus { border-color: var(--medical-blue); outline: none; background: #F0F7FF; }
 
         .btn-submit {
             width: 100%; background: var(--medical-blue); color: white; padding: 20px;
             border-radius: 12px; border: none; font-size: 1.1rem; font-weight: bold;
             cursor: pointer; transition: 0.3s; box-shadow: 0 10px 20px rgba(0, 82, 204, 0.2);
         }
-        .btn-submit:hover { background: #003E99; transform: scale(1.02); }
+        .btn-submit:hover { background: #003E99; transform: translateY(-3px); }
 
-        /* --- FAQ & LOCATION --- */
-        .extra-info { padding: 50px 5%; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-        .faq-item { background: white; padding: 20px; border-radius: 15px; margin-bottom: 15px; cursor: pointer; border: 1px solid #EDF2F7; transition: 0.3s; }
-        .faq-item:hover { border-color: var(--medical-blue); }
-        .faq-question { font-weight: 700; display: flex; justify-content: space-between; }
-        .faq-answer { margin-top: 10px; font-size: 0.9rem; color: #64748B; display: none; }
-
-        .map-box { background: #E2E8F0; height: 300px; border-radius: 20px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; border: 5px solid white; box-shadow: var(--shadow); }
+        /* --- INFO SECTIONS --- */
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; padding: 50px 5%; max-width: 1300px; margin: 0 auto; }
+        .faq-card { background: white; padding: 25px; border-radius: 20px; margin-bottom: 15px; cursor: pointer; transition: 0.3s; }
+        .faq-card:hover { border-left: 5px solid var(--medical-blue); }
+        .location-map { background: #E2E8F0; border-radius: 30px; height: 350px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
 
         @media (max-width: 968px) {
-            .main-grid, .extra-info { grid-template-columns: 1fr; }
+            .main-booking-area, .info-grid { grid-template-columns: 1fr; }
+            .grid-container { margin-top: 20px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="modal-overlay" id="specModal">
-        <div class="modal-card">
+    <div class="modal" id="infoModal">
+        <div class="modal-content">
             <span class="close-modal" onclick="closeModal()">&times;</span>
             <h2 id="modalTitle" style="color: var(--medical-blue); margin-bottom: 15px;"></h2>
-            <div id="modalBody" style="line-height: 1.6; color: #4A5568;"></div>
-            <div style="margin-top: 20px; padding: 15px; background: var(--light-blue); border-radius: 10px;">
-                <p><strong>Costo de Consulta:</strong> <span id="modalPrice"></span></p>
-                <p><strong>Requisito:</strong> Solo cita previa.</p>
+            <p id="modalBody" style="line-height: 1.6; color: #4A5568; margin-bottom: 20px;"></p>
+            <div style="background: var(--light-blue); padding: 15px; border-radius: 15px;">
+                <p><strong><i class="fa-solid fa-clock"></i> Nota:</strong> Solo se atiende con cita previa confirmada.</p>
             </div>
-            <button class="btn-submit" style="margin-top: 20px; padding: 12px;" onclick="closeModal()">ENTENDIDO</button>
         </div>
     </div>
 
     <nav class="nav-container">
         <div class="logo"><i class="fa-solid fa-house-medical"></i> MEDICENTER PRO</div>
-        <div class="nav-links">
-            <a href="tel:+525512345678" class="phone-btn"><i class="fa-solid fa-phone"></i> (55) 1234-5678</a>
-            <a href="#booking" class="emergency-pill">URGENCIAS</a>
+        <div class="nav-right">
+            <a href="tel:+525512345678" class="phone-link"><i class="fa-solid fa-phone"></i> LLAMAR: (55) 1234-5678</a>
+            <a href="#booking" class="emergency-pill">URGENCIAS 24/7</a>
         </div>
     </nav>
 
     <header class="hero">
-        <div class="tag">ATENCIÓN EXCLUSIVA CON CITA PREVIA</div>
-        <h1 class="animate__animated animate__fadeInUp">Tu salud, nuestra<br>prioridad máxima.</h1>
-        <p>Expertos en medicina avanzada con disponibilidad inmediata para citas programadas.</p>
+        <h1 class="animate__animated animate__fadeInDown">Excelencia Médica.</h1>
+        <p class="animate__animated animate__fadeInUp">Sincronización directa con el calendario de especialistas.</p>
     </header>
 
-    <section class="main-grid" id="booking">
-        <div class="booking-card">
-            <h2 style="margin-bottom: 30px;"><i class="fa-solid fa-calendar-check" style="color: var(--medical-blue);"></i> Agendar Nueva Cita</h2>
-            <form id="appointmentForm">
-                <div class="form-group">
-                    <label>NOMBRE COMPLETO DEL PACIENTE</label>
-                    <input type="text" id="patientName" placeholder="Ej. Juan Pérez" required>
-                </div>
+    <section class="grid-container">
+        <div class="spec-card" onclick="openSpec('General')">
+            <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=500&q=80" class="doc-img" alt="Dr. Méndez">
+            <div class="spec-info">
+                <i class="fa-solid fa-stethoscope"></i>
+                <h3>Consulta General</h3>
+                <p>Dr. Méndez / Dra. Salas</p>
+                <span class="price-badge">$40.00</span>
+            </div>
+        </div>
+        <div class="spec-card" onclick="openSpec('Ginecología')">
+            <img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&w=500&q=80" class="doc-img" alt="Dra. Ruiz">
+            <div class="spec-info">
+                <i class="fa-solid fa-venus"></i>
+                <h3>Ginecología</h3>
+                <p>Dra. Fernanda Ruiz</p>
+                <span class="price-badge">$75.00</span>
+            </div>
+        </div>
+        <div class="spec-card" onclick="openSpec('Pediatría')">
+            <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=500&q=80" class="doc-img" alt="Dr. Cano">
+            <div class="spec-info">
+                <i class="fa-solid fa-baby"></i>
+                <h3>Pediatría</h3>
+                <p>Dr. Roberto Cano</p>
+                <span class="price-badge">$60.00</span>
+            </div>
+        </div>
+        <div class="spec-card" onclick="openSpec('Alergología')">
+            <img src="https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&w=500&q=80" class="doc-img" alt="Dr. Paz">
+            <div class="spec-info">
+                <i class="fa-solid fa-wind"></i>
+                <h3>Alergología</h3>
+                <p>Dr. Samuel Paz</p>
+                <span class="price-badge">$90.00</span>
+            </div>
+        </div>
+    </section>
 
+    <section class="main-booking-area" id="booking">
+        <div class="booking-form-card">
+            <h2 style="margin-bottom: 30px;"><i class="fa-solid fa-calendar-plus"></i> Agendar Nueva Cita</h2>
+            <form id="mainForm">
                 <div class="form-group">
-                    <label>SELECCIONAR ESPECIALIDAD</label>
-                    <select id="serviceSelect" onchange="handleServiceChange()" required>
-                        <option value="">-- Elija una especialidad --</option>
-                        <option value="General" data-price="$40" data-info="Diagnóstico preventivo, medicina general, recetas y chequeos de rutina. Incluye atención por el Dr. Méndez o Dra. Salas.">Consulta General ($40)</option>
-                        <option value="Ginecologia" data-price="$75" data-info="Atención integral para la mujer, control prenatal, ultrasonidos y prevención citológica.">Ginecología ($75)</option>
-                        <option value="Internista" data-price="$85" data-info="Especialista en órganos internos, enfermedades crónicas complejas y chequeos metabólicos.">Medicina Interna ($85)</option>
-                        <option value="Pediatria" data-price="$60" data-info="Cuidado pediátrico integral, control de crecimiento y desarrollo, y vacunación.">Pediatría ($60)</option>
-                        <option value="Alergologo" data-price="$90" data-info="Pruebas cutáneas, tratamiento de asma, rinitis y alergias alimentarias.">Alergólogo ($90)</option>
-                        <option value="Urgencia" data-price="$150" data-info="Atención prioritaria inmediata. Estabilización de pacientes en clínica.">🚨 URGENCIAS ($150)</option>
-                        <option value="Domicilio" data-price="$120" data-info="Traslado de equipo médico y doctor hasta su hogar. Sujeto a radio de cobertura.">🏠 A DOMICILIO ($120)</option>
+                    <label>NOMBRE DEL PACIENTE</label>
+                    <input type="text" id="patientName" placeholder="Ingrese nombre completo" required>
+                </div>
+                <div class="form-group">
+                    <label>ESPECIALIDAD</label>
+                    <select id="serviceSelect" onchange="updateDoctorsList()" required>
+                        <option value="">Seleccione...</option>
+                        <option value="General" data-price="40">Consulta General ($40)</option>
+                        <option value="Ginecología" data-price="75">Ginecología ($75)</option>
+                        <option value="Pediatría" data-price="60">Pediatría ($60)</option>
+                        <option value="Alergología" data-price="90">Alergología ($90)</option>
                     </select>
                 </div>
-
                 <div class="form-group">
-                    <label>MÉDICO DISPONIBLE</label>
+                    <label>MÉDICO ASIGNADO</label>
                     <select id="doctorSelect" required></select>
                 </div>
-
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                     <div class="form-group">
                         <label>FECHA</label>
-                        <input type="date" id="appDate" required onchange="filterTimes()">
+                        <input type="date" id="appDate" required onchange="validateSlots()">
                     </div>
                     <div class="form-group">
-                        <label>HORA DISPONIBLE</label>
+                        <label>HORA (Sujeto a disponibilidad)</label>
                         <select id="appTime" required>
                             <option value="09:00">09:00 AM</option>
                             <option value="10:00">10:00 AM</option>
-                            <option value="11:00">11:00 AM</option>
-                            <option value="12:00" id="time12" disabled>12:00 PM (Ocupado)</option>
-                            <option value="13:00">01:00 PM</option>
-                            <option value="16:00">04:00 PM</option>
-                            <option value="17:00" id="time17" disabled>05:00 PM (Ocupado)</option>
+                            <option value="11:00" id="slot-11" disabled>11:00 AM (OCUPADO)</option>
+                            <option value="12:00">12:00 PM</option>
+                            <option value="16:00" id="slot-16" disabled>04:00 PM (OCUPADO)</option>
+                            <option value="17:00">05:00 PM</option>
                         </select>
                     </div>
                 </div>
-
-                <button type="submit" class="btn-submit">CONFIRMAR Y SINCRONIZAR CITA</button>
+                <button type="submit" class="btn-submit">CONFIRMAR E INSCRIBIR EN CALENDARIO</button>
             </form>
         </div>
 
-        <div class="staff-calendar">
-            <div class="calendar-title"><i class="fa-solid fa-display"></i> CALENDARIO MAESTRO (STAFF)</div>
-            <p style="font-size: 0.7rem; color: #94A3B8; margin-bottom: 15px;">Sincronizado en tiempo real con todos los especialistas.</p>
-            <div id="staffList">
-                <div class="appointment-item"><strong>08:00 AM</strong> - Bloqueo de Limpieza Quirúrgica</div>
-                <div class="appointment-item"><strong>12:00 PM</strong> - Reservado: Paciente Crónico (Ginecología)</div>
-                <div class="appointment-item"><strong>17:00 PM</strong> - Reservado: Emergencia Programada</div>
+        <div class="staff-calendar-box">
+            <div class="calendar-header">
+                <i class="fa-solid fa-clipboard-list"></i> AGENDA DE STAFF (ANGELYE...)
             </div>
-            <div style="margin-top: 30px; padding: 15px; background: rgba(0, 180, 216, 0.1); border-radius: 10px;">
-                <p style="font-size: 0.8rem; color: var(--accent-blue);"><strong>Info Staff:</strong> Los doctores Méndez y Salas comparten agenda en Consulta General.</p>
+            <p style="font-size: 0.75rem; color: #94A3B8; margin-bottom: 20px;">
+                Vista compartida para: <strong>angelyef49@gmail.com</strong>
+            </p>
+            <div id="calendarDisplay">
+                <div class="appointment-slot"><strong>08:00 AM</strong> - Bloqueo Administrativo</div>
+                <div class="appointment-slot"><strong>11:00 AM</strong> - RESERVADO: Cirugía Programada</div>
+                <div class="appointment-slot"><strong>16:00 PM</strong> - RESERVADO: Consulta Externa</div>
             </div>
         </div>
     </section>
 
-    <section class="extra-info">
+    <section class="info-grid">
         <div>
             <h3 style="margin-bottom: 20px; color: var(--medical-blue);">Preguntas Frecuentes</h3>
-            <div class="faq-item" onclick="toggleFaq(this)">
-                <div class="faq-question">¿Necesito orden médica previa? <i class="fa-solid fa-plus"></i></div>
-                <div class="faq-answer">No es necesaria para consulta general, pero sí recomendable para especialistas si cuenta con estudios previos.</div>
+            <div class="faq-card">
+                <strong>¿Puedo llegar sin cita?</strong>
+                <p style="font-size: 0.9rem; color: #64748B; margin-top: 5px;">No, por protocolo de calidad atendemos únicamente con cita programada para evitar esperas.</p>
             </div>
-            <div class="faq-item" onclick="toggleFaq(this)">
-                <div class="faq-question">¿Cuál es el tiempo de espera? <i class="fa-solid fa-plus"></i></div>
-                <div class="faq-answer">Al trabajar solo con cita previa, el tiempo máximo de espera en sala es de 10 a 15 minutos.</div>
-            </div>
-            <div class="faq-item" onclick="toggleFaq(this)">
-                <div class="faq-question">¿Aceptan pagos con tarjeta? <i class="fa-solid fa-plus"></i></div>
-                <div class="faq-answer">Sí, aceptamos todas las tarjetas de crédito, débito y transferencias bancarias directas.</div>
+            <div class="faq-card">
+                <strong>¿Cómo se confirma mi cita?</strong>
+                <p style="font-size: 0.9rem; color: #64748B; margin-top: 5px;">Al agendar, el sistema envía una notificación al calendario maestro del staff.</p>
             </div>
         </div>
-
         <div>
-            <h3 style="margin-bottom: 20px; color: var(--medical-blue);">Ubicación del Consultorio</h3>
-            <div class="map-box">
-                <i class="fa-solid fa-map-location-dot" style="font-size: 3rem; color: var(--medical-blue); opacity: 0.5;"></i>
-                <p style="position: absolute; bottom: 20px; font-weight: bold; color: var(--medical-blue);">Av. Salud Central #450, Torre Médica A</p>
+            <h3 style="margin-bottom: 20px; color: var(--medical-blue);">Ubicación del Centro</h3>
+            <div class="location-map">
+                <div style="text-align: center;">
+                    <i class="fa-solid fa-location-dot" style="font-size: 3rem; color: var(--medical-blue);"></i>
+                    <p style="font-weight: 800; margin-top: 10px;">Torre Médica Premium, Piso 4</p>
+                    <p>Av. Principal #1024, Ciudad de México</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <footer style="text-align: center; padding: 40px; color: #94A3B8; font-size: 0.8rem; border-top: 1px solid #E2E8F0;">
-        <p>© 2026 MediCenter Pro. Todos los derechos reservados. | Registro Sanitario: 2234-A-2026</p>
+    <footer style="text-align: center; padding: 40px; color: #94A3B8; font-size: 0.8rem;">
+        <p>© 2026 MediCenter Pro. Admin: angelyef49@gmail.com</p>
     </footer>
 
     <script>
-        const doctors = {
-            "General": ["Dr. Méndez", "Dra. Salas"],
-            "Ginecologia": ["Dra. Fernanda Ruiz"],
-            "Pediatria": ["Dr. Roberto Cano"],
-            "Internista": ["Dra. Monica Valdes"],
-            "Alergologo": ["Dr. Samuel Paz"],
-            "Urgencia": ["Médico de Guardia (Turno A)"],
-            "Domicilio": ["Dr. Herrera (Móvil 1)"]
+        const specDetails = {
+            "General": "Abarca diagnósticos preventivos, manejo de enfermedades comunes, certificados médicos y seguimiento de salud integral por parte de los doctores principales.",
+            "Ginecología": "Enfocada en la salud reproductiva femenina, control prenatal, ultrasonidos de alta resolución y prevención oncológica.",
+            "Pediatría": "Atención especializada para neonatos y niños, control de crecimiento, desarrollo y esquema de vacunación completo.",
+            "Alergología": "Detección y tratamiento de alergias estacionales, alimentarias y asma mediante pruebas cutáneas avanzadas."
         };
 
-        // Función al cambiar especialidad
-        function handleServiceChange() {
-            const select = document.getElementById('serviceSelect');
-            const service = select.value;
-            const option = select.options[select.selectedIndex];
-            
-            if(!service) return;
+        const doctorsList = {
+            "General": ["Dr. Méndez", "Dra. Salas"],
+            "Ginecología": ["Dra. Fernanda Ruiz"],
+            "Pediatría": ["Dr. Roberto Cano"],
+            "Alergología": ["Dr. Samuel Paz"]
+        };
 
-            // 1. Abrir Modal Informativo
-            document.getElementById('modalTitle').innerText = service;
-            document.getElementById('modalBody').innerText = option.getAttribute('data-info');
-            document.getElementById('modalPrice').innerText = option.getAttribute('data-price');
-            document.getElementById('specModal').style.display = 'flex';
-
-            // 2. Actualizar Médicos
-            const docSelect = document.getElementById('doctorSelect');
-            docSelect.innerHTML = '';
-            doctors[service].forEach(doc => {
-                const opt = document.createElement('option');
-                opt.value = doc;
-                opt.innerText = doc;
-                docSelect.appendChild(opt);
-            });
+        function openSpec(name) {
+            document.getElementById('modalTitle').innerText = name;
+            document.getElementById('modalBody').innerText = specDetails[name];
+            document.getElementById('infoModal').style.display = 'flex';
         }
 
         function closeModal() {
-            document.getElementById('specModal').style.display = 'none';
+            document.getElementById('infoModal').style.display = 'none';
         }
 
-        function toggleFaq(el) {
-            const answer = el.querySelector('.faq-answer');
-            const icon = el.querySelector('i');
-            const isOpen = answer.style.display === 'block';
-            answer.style.display = isOpen ? 'none' : 'block';
-            icon.className = isOpen ? 'fa-solid fa-plus' : 'fa-solid fa-minus';
+        function updateDoctorsList() {
+            const service = document.getElementById('serviceSelect').value;
+            const docSelect = document.getElementById('doctorSelect');
+            docSelect.innerHTML = '';
+            if(doctorsList[service]) {
+                doctorsList[service].forEach(d => {
+                    const o = document.createElement('option');
+                    o.value = d; o.innerText = d;
+                    docSelect.appendChild(o);
+                });
+            }
         }
 
-        // Bloqueo de horarios pasados
-        function filterTimes() {
-            const dateInput = document.getElementById('appDate').value;
-            const now = new Date();
-            const today = now.toISOString().split('T')[0];
-            const currentHour = now.getHours();
-
-            const timeSelect = document.getElementById('appTime');
-            const options = timeSelect.options;
-
-            for (let i = 0; i < options.length; i++) {
-                const optHour = parseInt(options[i].value.split(':')[0]);
-                // Si es hoy, deshabilitar horas que ya pasaron
-                if(dateInput === today && optHour <= currentHour) {
-                    options[i].disabled = true;
-                } else {
-                    // Mantener bloqueados solo los ocupados por defecto (12 y 17)
-                    if(options[i].id !== "time12" && options[i].id !== "time17") {
-                        options[i].disabled = false;
-                    }
+        function validateSlots() {
+            const date = document.getElementById('appDate').value;
+            const now = new Date().toISOString().split('T')[0];
+            const hour = new Date().getHours();
+            
+            // Si es hoy, bloqueamos horas pasadas
+            const timeOpts = document.getElementById('appTime').options;
+            for(let i=0; i<timeOpts.length; i++) {
+                const optHour = parseInt(timeOpts[i].value.split(':')[0]);
+                if(date === now && optHour <= hour) {
+                    timeOpts[i].disabled = true;
+                } else if(timeOpts[i].id !== 'slot-11' && timeOpts[i].id !== 'slot-16') {
+                    timeOpts[i].disabled = false;
                 }
             }
         }
 
-        // Agendar cita
-        document.getElementById('appointmentForm').onsubmit = function(e) {
+        // AGENDAR Y SINCRONIZAR
+        document.getElementById('mainForm').onsubmit = function(e) {
             e.preventDefault();
-            
             const name = document.getElementById('patientName').value;
-            const doc = document.getElementById('doctorSelect').value;
-            const time = document.getElementById('appTime').value;
             const service = document.getElementById('serviceSelect').value;
+            const time = document.getElementById('appTime').value;
+            const doctor = document.getElementById('doctorSelect').value;
 
-            // Sincronizar con el calendario maestro de staff
-            const staffList = document.getElementById('staffList');
-            const newApp = document.createElement('div');
-            newApp.className = "appointment-item animate__animated animate__fadeInRight";
-            newApp.style.background = "#0052CC";
-            newApp.innerHTML = `<strong>${time} PM</strong> - PACIENTE: ${name.toUpperCase()} (${doc})`;
-            staffList.prepend(newApp);
+            // Simulación de escritura en el calendario del Staff
+            const calendar = document.getElementById('calendarDisplay');
+            const newSlot = document.createElement('div');
+            newSlot.className = "appointment-slot animate__animated animate__pulse";
+            newSlot.style.background = "#0052CC";
+            newSlot.innerHTML = `<strong>${time}</strong> - CITA: ${name.toUpperCase()} (${service})`;
+            calendar.prepend(newSlot);
 
-            // Mensaje de éxito
-            alert(`Cita confirmada con éxito.\nEspecialista: ${doc}\nHora: ${time}\n\nEl calendario de los doctores ha sido actualizado.`);
+            alert(`✅ CITA AGENDADA EXITOSAMENTE\n\nEl sistema ha notificado a angelyef49@gmail.com y la cita ha sido agregada a la agenda de ${doctor}.`);
             this.reset();
         };
 
-        // Bloquear calendario en fechas pasadas
-        document.getElementById('appDate').min = new Date().toISOString().split("T")[0];
+        // Bloqueo de fechas pasadas
+        document.getElementById('appDate').min = new Date().toISOString().split('T')[0];
     </script>
 </body>
 </html>
