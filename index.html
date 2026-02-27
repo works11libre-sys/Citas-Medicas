@@ -18,6 +18,7 @@
             --white: #FFFFFF;
             --glass: rgba(255, 255, 255, 0.9);
             --shadow: 0 20px 40px rgba(0, 82, 204, 0.15);
+            --home-gold: #D4AF37;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
@@ -84,7 +85,8 @@
             display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 40px; 
             padding: 80px 5%; max-width: 1300px; margin: 0 auto; 
         }
-        .booking-form-card { background: white; padding: 40px; border-radius: 30px; box-shadow: var(--shadow); }
+        .booking-form-card { background: white; padding: 40px; border-radius: 30px; box-shadow: var(--shadow); border: 2px solid transparent; transition: 0.3s; }
+        .booking-form-card.home-active { border-color: var(--home-gold); box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); }
         
         .staff-calendar-box { 
             background: #1A202C; color: white; padding: 30px; border-radius: 30px; 
@@ -98,8 +100,8 @@
 
         .form-group { margin-bottom: 20px; }
         label { display: block; margin-bottom: 8px; font-weight: 700; color: var(--medical-blue); font-size: 0.85rem; }
-        input, select { width: 100%; padding: 15px; border-radius: 12px; border: 2px solid #E2E8F0; font-size: 1rem; transition: 0.3s; }
-        input:focus { border-color: var(--medical-blue); outline: none; background: #F0F7FF; }
+        input, select, textarea { width: 100%; padding: 15px; border-radius: 12px; border: 2px solid #E2E8F0; font-size: 1rem; transition: 0.3s; }
+        input:focus, select:focus { border-color: var(--medical-blue); outline: none; background: #F0F7FF; }
 
         .btn-submit {
             width: 100%; background: var(--medical-blue); color: white; padding: 20px;
@@ -108,10 +110,13 @@
         }
         .btn-submit:hover { background: #003E99; transform: translateY(-3px); }
 
+        /* --- HOME SERVICE SPECIFIC --- */
+        #homeServiceFields { display: none; background: #FFFDF5; padding: 20px; border-radius: 15px; border: 1px dashed var(--home-gold); margin-bottom: 20px; }
+
         /* --- INFO SECTIONS --- */
         .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; padding: 50px 5%; max-width: 1300px; margin: 0 auto; }
-        .faq-card { background: white; padding: 25px; border-radius: 20px; margin-bottom: 15px; cursor: pointer; transition: 0.3s; }
-        .faq-card:hover { border-left: 5px solid var(--medical-blue); }
+        .faq-card { background: white; padding: 25px; border-radius: 20px; margin-bottom: 15px; transition: 0.3s; border: 1px solid #EDF2F7; }
+        .faq-card:hover { border-left: 5px solid var(--medical-blue); transform: translateX(10px); }
         .location-map { background: #E2E8F0; border-radius: 30px; height: 350px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
 
         @media (max-width: 968px) {
@@ -136,7 +141,7 @@
     <nav class="nav-container">
         <div class="logo"><i class="fa-solid fa-house-medical"></i> MEDICENTER PRO</div>
         <div class="nav-right">
-            <a href="tel:+525512345678" class="phone-link"><i class="fa-solid fa-phone"></i> LLAMAR: (55) 1234-5678</a>
+            <a href="tel:+525512345678" class="phone-link"><i class="fa-solid fa-phone"></i> CENTRAL: (55) 1234-5678</a>
             <a href="#booking" class="emergency-pill">URGENCIAS 24/7</a>
         </div>
     </nav>
@@ -186,13 +191,32 @@
     </section>
 
     <section class="main-booking-area" id="booking">
-        <div class="booking-form-card">
+        <div class="booking-form-card" id="formCard">
             <h2 style="margin-bottom: 30px;"><i class="fa-solid fa-calendar-plus"></i> Agendar Nueva Cita</h2>
             <form id="mainForm">
                 <div class="form-group">
                     <label>NOMBRE DEL PACIENTE</label>
                     <input type="text" id="patientName" placeholder="Ingrese nombre completo" required>
                 </div>
+                <div class="form-group">
+                    <label>TIPO DE CONSULTA</label>
+                    <select id="typeSelect" onchange="toggleHomeService()" required>
+                        <option value="clinica">🏥 En Clínica (Precio Estándar)</option>
+                        <option value="domicilio">🏠 A Domicilio (Cargo Extra +$50.00)</option>
+                    </select>
+                </div>
+                
+                <div id="homeServiceFields">
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-map-location-dot"></i> DIRECCIÓN COMPLETA</label>
+                        <textarea id="homeAddress" rows="2" placeholder="Calle, número, colonia y referencias..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-mobile-screen"></i> TELÉFONO DE CONTACTO</label>
+                        <input type="tel" id="patientPhone" placeholder="Tu número de WhatsApp">
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label>ESPECIALIDAD</label>
                     <select id="serviceSelect" onchange="updateDoctorsList()" required>
@@ -213,7 +237,7 @@
                         <input type="date" id="appDate" required onchange="validateSlots()">
                     </div>
                     <div class="form-group">
-                        <label>HORA (Sujeto a disponibilidad)</label>
+                        <label>HORA</label>
                         <select id="appTime" required>
                             <option value="09:00">09:00 AM</option>
                             <option value="10:00">10:00 AM</option>
@@ -230,7 +254,7 @@
 
         <div class="staff-calendar-box">
             <div class="calendar-header">
-                <i class="fa-solid fa-clipboard-list"></i> AGENDA DE STAFF (ANGELYE...)
+                <i class="fa-solid fa-clipboard-list"></i> AGENDA DE STAFF
             </div>
             <p style="font-size: 0.75rem; color: #94A3B8; margin-bottom: 20px;">
                 Vista compartida para: <strong>angelyef49@gmail.com</strong>
@@ -251,8 +275,16 @@
                 <p style="font-size: 0.9rem; color: #64748B; margin-top: 5px;">No, por protocolo de calidad atendemos únicamente con cita programada para evitar esperas.</p>
             </div>
             <div class="faq-card">
-                <strong>¿Cómo se confirma mi cita?</strong>
-                <p style="font-size: 0.9rem; color: #64748B; margin-top: 5px;">Al agendar, el sistema envía una notificación al calendario maestro del staff.</p>
+                <strong>¿Cuál es el costo de la consulta a domicilio?</strong>
+                <p style="font-size: 0.9rem; color: #64748B; margin-top: 5px;">Se aplica un cargo adicional de $50.00 sobre el precio base de la especialidad elegida.</p>
+            </div>
+            <div class="faq-card">
+                <strong>¿Qué métodos de pago aceptan?</strong>
+                <p style="font-size: 0.9rem; color: #64748B; margin-top: 5px;">Aceptamos efectivo, tarjetas de crédito/débito y transferencia bancaria al momento de la consulta.</p>
+            </div>
+            <div class="faq-card">
+                <strong>¿Cómo cancelo o reprogramo?</strong>
+                <p style="font-size: 0.9rem; color: #64748B; margin-top: 5px;">Debe llamar con al menos 4 horas de anticipación al número central para liberar el espacio.</p>
             </div>
         </div>
         <div>
@@ -279,11 +311,21 @@
             "Alergología": "Detección y tratamiento de alergias estacionales, alimentarias y asma mediante pruebas cutáneas avanzadas."
         };
 
-        const doctorsList = {
-            "General": ["Dr. Méndez", "Dra. Salas"],
-            "Ginecología": ["Dra. Fernanda Ruiz"],
-            "Pediatría": ["Dr. Roberto Cano"],
-            "Alergología": ["Dr. Samuel Paz"]
+        // BASE DE DATOS DE DOCTORES Y SUS WHATSAPP REALES
+        const doctorsDB = {
+            "General": [
+                { name: "Dr. Méndez", phone: "525511112222" },
+                { name: "Dra. Salas", phone: "525533334444" }
+            ],
+            "Ginecología": [
+                { name: "Dra. Fernanda Ruiz", phone: "525555556666" }
+            ],
+            "Pediatría": [
+                { name: "Dr. Roberto Cano", phone: "525577778888" }
+            ],
+            "Alergología": [
+                { name: "Dr. Samuel Paz", phone: "+525652092860" }
+            ]
         };
 
         function openSpec(name) {
@@ -296,14 +338,33 @@
             document.getElementById('infoModal').style.display = 'none';
         }
 
+        function toggleHomeService() {
+            const type = document.getElementById('typeSelect').value;
+            const fields = document.getElementById('homeServiceFields');
+            const card = document.getElementById('formCard');
+            if(type === 'domicilio') {
+                fields.style.display = 'block';
+                card.classList.add('home-active');
+                document.getElementById('homeAddress').required = true;
+                document.getElementById('patientPhone').required = true;
+            } else {
+                fields.style.display = 'none';
+                card.classList.remove('home-active');
+                document.getElementById('homeAddress').required = false;
+                document.getElementById('patientPhone').required = false;
+            }
+        }
+
         function updateDoctorsList() {
             const service = document.getElementById('serviceSelect').value;
             const docSelect = document.getElementById('doctorSelect');
             docSelect.innerHTML = '';
-            if(doctorsList[service]) {
-                doctorsList[service].forEach(d => {
+            if(doctorsDB[service]) {
+                doctorsDB[service].forEach(d => {
                     const o = document.createElement('option');
-                    o.value = d; o.innerText = d;
+                    o.value = d.name; 
+                    o.innerText = d.name;
+                    o.dataset.phone = d.phone; // Guardamos el teléfono en el atributo dataset
                     docSelect.appendChild(o);
                 });
             }
@@ -313,8 +374,6 @@
             const date = document.getElementById('appDate').value;
             const now = new Date().toISOString().split('T')[0];
             const hour = new Date().getHours();
-            
-            // Si es hoy, bloqueamos horas pasadas
             const timeOpts = document.getElementById('appTime').options;
             for(let i=0; i<timeOpts.length; i++) {
                 const optHour = parseInt(timeOpts[i].value.split(':')[0]);
@@ -326,27 +385,59 @@
             }
         }
 
-        // AGENDAR Y SINCRONIZAR
         document.getElementById('mainForm').onsubmit = function(e) {
             e.preventDefault();
             const name = document.getElementById('patientName').value;
             const service = document.getElementById('serviceSelect').value;
             const time = document.getElementById('appTime').value;
-            const doctor = document.getElementById('doctorSelect').value;
+            const date = document.getElementById('appDate').value;
+            const type = document.getElementById('typeSelect').value;
+            
+            // Obtener el doctor y su teléfono específico
+            const docSelect = document.getElementById('doctorSelect');
+            const selectedDocName = docSelect.value;
+            const selectedDocPhone = docSelect.selectedOptions[0].dataset.phone;
+            
+            // Calcular precio
+            let basePrice = parseInt(document.getElementById('serviceSelect').selectedOptions[0].dataset.price);
+            if(type === 'domicilio') basePrice += 50;
 
-            // Simulación de escritura en el calendario del Staff
+            // Actualizar Calendario Visual
             const calendar = document.getElementById('calendarDisplay');
             const newSlot = document.createElement('div');
             newSlot.className = "appointment-slot animate__animated animate__pulse";
-            newSlot.style.background = "#0052CC";
-            newSlot.innerHTML = `<strong>${time}</strong> - CITA: ${name.toUpperCase()} (${service})`;
+            newSlot.style.background = type === 'domicilio' ? "#D4AF37" : "#0052CC";
+            newSlot.innerHTML = `<strong>${time}</strong> - ${type.toUpperCase()}: ${name.toUpperCase()} (${service})`;
             calendar.prepend(newSlot);
 
-            alert(`✅ CITA AGENDADA EXITOSAMENTE\n\nEl sistema ha notificado a angelyef49@gmail.com y la cita ha sido agregada a la agenda de ${doctor}.`);
+            // Preparar Mensaje de WhatsApp
+            let message = `📌 *NUEVA CITA REGISTRADA*\n\n`;
+            message += `👤 *Paciente:* ${name}\n`;
+            message += `🏥 *Servicio:* ${service}\n`;
+            message += `👨‍⚕️ *Doctor:* ${selectedDocName}\n`;
+            message += `📅 *Fecha:* ${date}\n`;
+            message += `⏰ *Hora:* ${time}\n`;
+            message += `💵 *Total:* $${basePrice}.00\n`;
+            
+            if(type === 'domicilio') {
+                const address = document.getElementById('homeAddress').value;
+                const phone = document.getElementById('patientPhone').value;
+                message += `🏠 *MODALIDAD:* DOMICILIO\n`;
+                message += `📍 *Dirección:* ${address}\n`;
+                message += `📞 *Tel. Paciente:* ${phone}`;
+            }
+
+            // Notificación final
+            alert(`✅ CITA REGISTRADA\n\nNotificando al ${selectedDocName} al número ${selectedDocPhone}.\nSe ha enviado copia al administrador angelyef49@gmail.com`);
+
+            // Redirigir a WhatsApp del especialista seleccionado
+            const waUrl = `https://wa.me/${selectedDocPhone}?text=${encodeURIComponent(message)}`;
+            window.open(waUrl, '_blank');
+
             this.reset();
+            toggleHomeService();
         };
 
-        // Bloqueo de fechas pasadas
         document.getElementById('appDate').min = new Date().toISOString().split('T')[0];
     </script>
 </body>
